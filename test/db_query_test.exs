@@ -1,6 +1,5 @@
 defmodule DBQueryTest do
   use ExUnit.Case
-  @tags ~w(title cat year size)a
 
   test "begin_end_year" do
     assert {1_577_836_800, 1_609_459_199} ==

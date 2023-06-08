@@ -61,22 +61,22 @@ defmodule IpfxRarbg.CmdParser do
     end
   end
 
+  @regex [
+    {~r/\b(0|[1-9][0-9]*)mb\b/, 1000 * 1000},
+    {~r/\b(0|[1-9][0-9]*)gb\b/, 1000 * 1000 * 1000},
+    {~r/\b(0|[1-9][0-9]*)kb\b/, 1000}
+  ]
+
   defp query_tag(:size, qs) do
-    cond do
-      r = Regex.run(~r/\b(0|[1-9][0-9]*)mb\b/, qs) ->
-        [_, size] = r
-        elem(Integer.parse(size), 0) * 1000 * 1000
+    Enum.reduce_while(@regex, [], fn {rex, mult}, acc ->
+      case Regex.run(rex, qs) do
+        [_, size] ->
+          {:halt, [elem(Integer.parse(size), 0) * mult]}
 
-      r = Regex.run(~r/\b(0|[1-9][0-9]*)kb\b/, qs) ->
-        [_, size] = r
-        elem(Integer.parse(size), 0) * 1000
-
-      r = Regex.run(~r/\b(0|[1-9][0-9]*)gb\b/, qs) ->
-        [_, size] = r
-        elem(Integer.parse(size), 0) * 1000 * 1000 * 1000
-
-      true ->
-        nil
-    end
+        _ ->
+          {:cont, acc}
+      end
+    end)
+    |> List.first()
   end
 end

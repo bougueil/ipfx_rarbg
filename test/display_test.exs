@@ -2,7 +2,7 @@ defmodule DisplayTest do
   use ExUnit.Case
 
   test "row" do
-    assert "826A5AC37E88AFD71279FFC2D95FBEE55B5BC96B 2020-07-01 10:19:53 2170.6mb Last.Tango.In.Paris.1972.1080p.BluRay.x265-RARBG cat: movies_x265" ==
+    assert "826A5AC37E88AFD71279FFC2D95FBEE55B5BC96B 2020-07-01 10:19:53 2170.6mb movies_x265 Last.Tango.In.Paris.1972.1080p.BluRay.x265-RARBG" ==
              IpfxRarbg.Display.row([
                "Last.Tango.In.Paris.1972.1080p.BluRay.x265-RARBG",
                1_593_598_793,

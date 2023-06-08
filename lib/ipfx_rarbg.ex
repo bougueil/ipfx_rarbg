@@ -26,7 +26,6 @@ defmodule IpfxRarbg do
       main entry point for the command-line interpreter escript
   """
   def main(_) do
-    # IO.puts(@slogan)
     open_db()
     |> slogan()
     |> loop()

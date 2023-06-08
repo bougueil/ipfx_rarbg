@@ -11,7 +11,7 @@ defmodule IpfxRarbg.Display do
   end
 
   def row([title, dt, size, cat, hash]) do
-    "#{Base.encode16(hash)} #{date_str(dt)} #{size_str(size)} #{title} #{@revcat[cat]}"
+    "#{Base.encode16(hash)} #{date_str(dt)} #{size_str(size)} #{@revcat[cat]} #{title}"
   end
 
   defp date_str(dt) do
