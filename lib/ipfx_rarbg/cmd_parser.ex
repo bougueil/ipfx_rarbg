@@ -79,14 +79,4 @@ defmodule IpfxRarbg.CmdParser do
         nil
     end
   end
-
-  def test do
-    cond do
-      r = List.first([11]) ->
-        IO.puts(r)
-
-      true ->
-        IO.puts("tant pis")
-    end
-  end
 end
