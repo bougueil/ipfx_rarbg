@@ -19,10 +19,8 @@ defmodule IpfxRarbg do
     IO.puts(@slogan)
 
     {:ok, conn} =
-      Exqlite.Sqlite3.open(
-        "./rarbg/ipfs/QmbpRxBZ5HDZDVRoeAU8xFYnoP4r5eGCxdkmfFW3JbA6mq/rarbg_db_ipfs.sqlite",
-        mode: :readonly
-      )
+      Application.fetch_env!(:ipfx_rarbg, :sqlite_db_path)
+      |> Exqlite.Sqlite3.open(mode: :readonly)
 
     loop(conn)
   end
