@@ -6,27 +6,36 @@ defmodule IpfxRarbg do
              |> String.split("<!-- MDOC !-->")
              |> Enum.fetch!(1)
 
-  @slogan """
-  #{@app_name} ipfx_rarbg basic query tool
-  q quit - h help - other strings for query, example:
-  paris 1972 2020y 2gb movies_x265
-  """
+  defp slogan(conn) do
+    {:row, [count]} = IpfxRarbg.DBQuery.select(conn, "SELECT Count(*) FROM items")
+
+    IO.write("""
+
+    #{@app_name} basic query tool
+      q quit - h help - a_query_string like
+        paris 1972 2020y 2gb movies_x265
+
+    found #{count} items in #{db_name()}.
+
+    """)
+
+    conn
+  end
 
   @doc """
       main entry point for the command-line interpreter escript
   """
   def main(_) do
-    IO.puts(@slogan)
-
-    {:ok, conn} =
-      Application.fetch_env!(:ipfx_rarbg, :sqlite_db_path)
-      |> Exqlite.Sqlite3.open(mode: :readonly)
-
-    loop(conn)
+    # IO.puts(@slogan)
+    open_db()
+    |> slogan()
+    |> loop()
   end
 
   @doc false
   defp loop(conn) do
+    IO.write("ipfx_rarbg> ")
+
     case IO.read(:line) do
       "q\n" ->
         IO.puts("quit #{@app_name}.")
@@ -62,5 +71,14 @@ defmodule IpfxRarbg do
   rescue
     error ->
       "error with cmd: '#{string_of_cmds}, #{inspect(error)}'"
+  end
+
+  def open_db() do
+    {:ok, conn} = Exqlite.Sqlite3.open(db_name(), mode: :readonly)
+    conn
+  end
+
+  def db_name() do
+    Application.fetch_env!(:ipfx_rarbg, :sqlite_db_path)
   end
 end

@@ -82,4 +82,10 @@ defmodule IpfxRarbg.DBQuery do
   def begin_end_size(size) do
     {round(size * 1.1), round(size * 0.9)}
   end
+
+  # SELECT 	* FROM 	items LIMIT 10;
+  def select(conn, select_statement) do
+    {:ok, statement} = Exqlite.Sqlite3.prepare(conn, select_statement)
+    Exqlite.Sqlite3.step(conn, statement)
+  end
 end

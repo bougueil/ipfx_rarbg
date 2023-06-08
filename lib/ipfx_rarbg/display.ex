@@ -7,6 +7,7 @@ defmodule IpfxRarbg.Display do
 
   def display(list) do
     IO.write(Enum.intersperse(list, "\n"))
+    IO.puts("")
   end
 
   def row([title, dt, size, cat, hash]) do
